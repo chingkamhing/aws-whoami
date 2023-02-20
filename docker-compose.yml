@@ -5,7 +5,7 @@ services:
   #
   gateway:
     build: ./gateway
-    image: ${DOCKER_ID}/gateway:latest
+    image: ${DOCKER_ID}/gateway:${TAG}
     restart: always
     networks:
       - proxy
@@ -16,7 +16,7 @@ services:
   #
   whoami:
     build: ./whoami
-    image: ${DOCKER_ID}/whoami:latest
+    image: ${DOCKER_ID}/whoami:${TAG}
     restart: always
     networks:
       - proxy

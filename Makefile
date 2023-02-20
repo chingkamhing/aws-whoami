@@ -1,4 +1,3 @@
-output := whoami
 
 .PHONY: help
 help:
@@ -14,24 +13,39 @@ help:
 	@echo "    docker-up            docker-compose up"
 	@echo "    docker-down          docker-compose down"
 
+DIRS ?= gateway whoami
+TAG ?= latest
+output := whoami
+
+#
+# References:
+# - https://www.freecodecamp.org/news/build-and-push-docker-images-to-aws-ecr/
+#
+
 #
 # Makefile commands
 #
 
 .PHONY: build
 build:
-	make -C gateway build
-	make -C whoami build
+	@for dir in $(DIRS) ; do \
+		echo "Building $$dir..." ; \
+		make -C $$dir build || exit 1 ; \
+	done
 
 .PHONY: test
 test:
-	make -C gateway test
-	make -C whoami test
+	@for dir in $(DIRS) ; do \
+		echo "Testing $$dir..." ; \
+		make -C $$dir test || exit 1 ; \
+	done
 
 .PHONY: clean
 clean:
-	make -C gateway clean
-	make -C whoami clean
+	@for dir in $(DIRS) ; do \
+		echo "Cleaning $$dir..." ; \
+		make -C $$dir clean || exit 1 ; \
+	done
 
 #
 # Docker commands
@@ -39,24 +53,30 @@ clean:
 
 .PHONY: docker
 docker:
-	docker compose -f docker-compose.yml build
+	@for dir in $(DIRS); do \
+		make -C $$dir docker || exit 1 ; \
+	done
 
 # push docker image to docker hub
 .PHONY: docker-push
 docker-push:
-	docker compose -f docker-compose.yml push
+	@for dir in $(DIRS); do \
+		make -C $$dir docker-push || exit 1 ; \
+	done
 
 # pull docker image to docker hub
 .PHONY: docker-pull
 docker-pull:
-	docker compose -f docker-compose.yml pull
+	@for dir in $(DIRS); do \
+		make -C $$dir docker-pull || exit 1 ; \
+	done
 
 # docker-compose up
 .PHONY: docker-up
 docker-up:
-	docker compose -f docker-compose.yml up
+	TAG=$(TAG) docker compose -f docker-compose.yml up
 
 # docker-compose down
 .PHONY: docker-down
 docker-down:
-	docker compose -f docker-compose.yml down
+	TAG=$(TAG) docker compose -f docker-compose.yml down
