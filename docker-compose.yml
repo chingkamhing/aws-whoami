@@ -1,0 +1,26 @@
+version: '3.9'
+services:
+  #
+  # gateway
+  #
+  gateway:
+    build: ./gateway
+    image: ${DOCKER_ID}/gateway:latest
+    restart: always
+    networks:
+      - proxy
+    ports:
+      - 8000:8000
+  #
+  # whoami
+  #
+  whoami:
+    build: ./whoami
+    image: ${DOCKER_ID}/whoami:latest
+    restart: always
+    networks:
+      - proxy
+
+networks:
+  proxy:
+    driver: bridge
