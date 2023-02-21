@@ -8,6 +8,7 @@ help:
 	@echo "    clean                Clean this project and database docker volume"
 	@echo "Docker commands"
 	@echo "    docker               Build all services docker images"
+	@echo "    docker-login         Login to docker repository"
 	@echo "    docker-push          Push docker image to docker hub"
 	@echo "    docker-pull          Pull docker image to docker hub"
 	@echo "    docker-up            docker-compose up"
@@ -56,6 +57,11 @@ docker:
 	@for dir in $(DIRS); do \
 		make -C $$dir docker || exit 1 ; \
 	done
+
+# docker login to aws ecr before image can be pushed
+.PHONY: docker-login
+docker-login:
+	aws ecr get-login-password | docker login --username $$DOCKER_USERNAME --password-stdin $$DOCKER_ID
 
 # push docker image to docker hub
 .PHONY: docker-push
