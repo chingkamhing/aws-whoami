@@ -1,7 +1,7 @@
 #!/bin/bash
 
-URL=http://127.0.0.1
-PORT=8000
+URL=${URL:=http://127.0.0.1}
+PORT=${PORT:=8000}
 ENDPOINT="health"
 NUM_ARGS=0
 OPTS="-s"
