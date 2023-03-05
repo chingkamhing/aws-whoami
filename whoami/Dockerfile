@@ -9,6 +9,7 @@ RUN CGO_ENABLED=0 GOOS=linux GOARCH=amd64 GOPROXY=direct GOSUMDB=off go build -o
 # final stage
 FROM alpine:3.17 as production
 WORKDIR /app
+RUN apk --no-cache add curl
 COPY --from=builder /app/main .
 ENTRYPOINT ["/app/main"]
 
