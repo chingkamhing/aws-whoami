@@ -61,6 +61,14 @@ func handlerWhoami(w http.ResponseWriter, r *http.Request) {
 	json.NewEncoder(w).Encode(response)
 }
 
+func handlerHealth(w http.ResponseWriter, r *http.Request) {
+	log.Println("health check")
+	response := struct {
+		Health string
+	}{"ok"}
+	json.NewEncoder(w).Encode(response)
+}
+
 func main() {
 	pflag.String("host", "", "whoami host name")
 	pflag.Int("port", 8000, "whoami host port")
@@ -74,6 +82,7 @@ func main() {
 
 	log.Printf("%s %s\n", os.Args[0], version)
 	http.HandleFunc("/whoami", handlerWhoami)
+	http.HandleFunc("/health", handlerHealth)
 	addr := fmt.Sprintf("%v:%v", host, port)
 	log.Printf("whoami listening http at %s\n", addr)
 	err := http.ListenAndServe(addr, nil)
