@@ -21,6 +21,8 @@ The purpose of this project:
 * ECR
     + [How to Build and Push Docker Images to AWS ECR](https://www.freecodecamp.org/news/build-and-push-docker-images-to-aws-ecr/)
 * deploy to ECS
+    + [Tutorial: Using cluster auto scaling with the AWS Management Console and the Amazon ECS console](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/tutorial-cluster-auto-scaling-console.html)
+    + [Deploy Nginx image by creating an AWS ECS cluster with an EC2 launch type](https://dev.to/aws-builders/deploy-nginx-image-by-creating-an-aws-ecs-cluster-with-an-ec2-launch-type-nb5)
     + [What is Amazon Elastic Container Service?](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/Welcome.html)
     + [Deploying Microservices with Amazon ECS, AWS CloudFormation, and an Application Load Balancer](https://github.com/aws-samples/ecs-refarch-cloudformation)
     + [Step by Step Guide of AWS Elastic Container Service](https://towardsdatascience.com/step-by-step-guide-of-aws-elastic-container-service-with-images-c258078130ce)
