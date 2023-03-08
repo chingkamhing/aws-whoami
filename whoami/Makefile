@@ -5,6 +5,7 @@ help:
 	@echo "Usage:"
 	@echo "Makefile commands"
 	@echo "    build                Build this project locally"
+	@echo "    update               Update go modules"
 	@echo "    test                 Perform go test"
 	@echo "    docker               Build all services docker images"
 	@echo "    docker-push          Push docker image to docker hub"
@@ -20,6 +21,10 @@ TAG ?= latest
 .PHONY: build
 build:
 	go build -o ${output} *.go
+
+.PHONY: update
+update:
+	go get -u ./... && go mod tidy -go=1.20
 
 .PHONY: test
 test:

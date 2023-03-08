@@ -4,6 +4,7 @@ help:
 	@echo "Usage:"
 	@echo "Makefile commands"
 	@echo "    build                Build this project locally"
+	@echo "    update               Update go modules"
 	@echo "    test                 Perform go test"
 	@echo "    clean                Clean this project and database docker volume"
 	@echo "Docker commands"
@@ -32,6 +33,13 @@ build:
 	@for dir in $(DIRS) ; do \
 		echo "Building $$dir..." ; \
 		make -C $$dir build || exit 1 ; \
+	done
+
+.PHONY: update
+update:
+	@for dir in $(DIRS) ; do \
+		echo "go updating $$dir..." ; \
+		make -C $$dir update || exit 1 ; \
 	done
 
 .PHONY: test
