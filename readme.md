@@ -14,6 +14,44 @@ The purpose of this project:
 
 * Small golang server to get the server's information
 
+## Deploy to AWS
+
+* build whoami docker and push to AWS ECR
+* go to AWS Elastic Container Service
+    + create ECS cluster
+        - default VPC
+        - check "Amazon EC2 instances"
+    + create task definition
+        - health check: "CMD-SHELL, curl -f http://localhost:8000/health || exit 1"
+        - network mode: awsvpc
+        - load balance type: Application Load Balancer
+    + run new task
+* go to EC2 > Load balancers
+    + copy the DNS name
+    + paste it to file ".env" environment variable "URL"
+    + invoke "set -a; source .env; set +a"
+    + invoke "./script/whoami.sh | jq ."
+    ```shell
+    kamching@kamching-envy17t:~/workspace/go/src/github.com/chingkamhing/aws-whoami$ ./script/whoami.sh | jq .
+    {
+      "Hostname": "ip-172-31-16-184.ap-southeast-1.compute.internal",
+      "IPs": [
+        "127.0.0.1",
+        "169.254.172.2",
+        "172.31.16.184"
+      ],
+      "Headers": {
+        "Accept": "*/*",
+        "User-Agent": "curl/7.85.0",
+        "X-Amzn-Trace-Id": "Root=1-640a1258-140fa122090a94e0012a9008",
+        "X-Forwarded-For": "1.64.103.176",
+        "X-Forwarded-Port": "8000",
+        "X-Forwarded-Proto": "http"
+      }
+    }
+
+    ```
+
 ## References:
 
 * [AWS Tutorial: A Step-by-Step Tutorial for Beginners](https://www.simplilearn.com/tutorials/aws-tutorial)
@@ -27,5 +65,13 @@ The purpose of this project:
     + [Deploying Microservices with Amazon ECS, AWS CloudFormation, and an Application Load Balancer](https://github.com/aws-samples/ecs-refarch-cloudformation)
     + [Step by Step Guide of AWS Elastic Container Service](https://towardsdatascience.com/step-by-step-guide-of-aws-elastic-container-service-with-images-c258078130ce)
     + [AWS EC2 CONTAINER SERVICE (ECS) & EC2 CONTAINER REGISTRY (ECR) | DOCKER REGISTRY](https://www.bogotobogo.com/DevOps/DevOps-ECS-ECR.php)
+* VPC
+    + [Understanding Amazon VPC Terminology](https://levelup.gitconnected.com/understanding-amazon-vpc-terminology-b3150bb6cde0)
+    + [Creating a Custom VPC in AWS](https://levelup.gitconnected.com/creating-a-custom-vpc-in-aws-b4ea7bf4a71)
+    + [How to Create AWS VPC in 10 steps, less than 10 min](https://varunmanik1.medium.com/how-to-create-aws-vpc-in-10-steps-less-than-5-min-a49ac12064aa)
+    + [Creating your own custom VPC](https://www.javatpoint.com/creating-your-own-custom-vpc)
+* networking
+    + [ECS Network Modes Comparison](https://tutorialsdojo.com/ecs-network-modes-comparison/)
+    + [ECS Networking - (awsvpc, bridge, host, none)](https://dev.to/aws-builders/ecs-networking-awsvpc-bridge-host-none-4bg9)
 * bastion host
     + [How to Create a Bastion Host | Part 1 of a Step-by-step Tutorial](https://www.strongdm.com/blog/bastion-hosts-with-audit-logging-part-one#:~:text=What%20is%20a%20bastion%20host,to%20reduce%20their%20attack%20surface.)
