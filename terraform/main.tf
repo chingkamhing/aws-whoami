@@ -23,3 +23,17 @@ terraform {
 provider "aws" {
   region = var.region
 }
+
+#
+# VPC
+#
+
+module "vpc" {
+  source = "./modules/vpc"
+
+  project         = var.project
+  region          = var.region
+  cidr_block      = var.cidr_block
+  public_subnets  = var.public_subnets
+  private_subnets = var.private_subnets
+}
