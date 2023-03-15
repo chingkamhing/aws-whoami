@@ -22,22 +22,22 @@ user-info:
 
 .PHONY: fmt
 fmt:
-	terraform fmt
+	terraform fmt -recursive
 
 .PHONY: validate
-validate:
+validate: fmt
 	terraform validate
 
 .PHONY: init
-init:
+init: fmt
 	terraform init
 
 .PHONY: plan
-plan: 
+plan: validate
 	terraform plan
 
 .PHONY: apply
-apply: 
+apply: validate
 	terraform apply
 
 .PHONY: show
