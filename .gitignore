@@ -1,4 +1,7 @@
 .env
 .cookie
+.terraform
+.terraform.lock.hcl
+terraform.tfstate
 gateway/gateway
 whoami/whoami
