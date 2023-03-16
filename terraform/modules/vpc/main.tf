@@ -7,10 +7,11 @@ resource "aws_vpc" "main" {
 }
 
 resource "aws_subnet" "public_subnets" {
-  count             = length(var.public_subnets)
-  vpc_id            = aws_vpc.main.id
-  cidr_block        = element(var.public_subnets, count.index)
-  availability_zone = element(local.azs, count.index)
+  count                   = length(var.public_subnets)
+  vpc_id                  = aws_vpc.main.id
+  cidr_block              = element(var.public_subnets, count.index)
+  availability_zone       = element(local.azs, count.index)
+  map_public_ip_on_launch = true
 
   tags = {
     Name = "${var.project} public subnet ${count.index + 1}"
@@ -18,10 +19,11 @@ resource "aws_subnet" "public_subnets" {
 }
 
 resource "aws_subnet" "private_subnets" {
-  count             = length(var.private_subnets)
-  vpc_id            = aws_vpc.main.id
-  cidr_block        = element(var.private_subnets, count.index)
-  availability_zone = element(local.azs, count.index)
+  count                   = length(var.private_subnets)
+  vpc_id                  = aws_vpc.main.id
+  cidr_block              = element(var.private_subnets, count.index)
+  availability_zone       = element(local.azs, count.index)
+  map_public_ip_on_launch = false
 
   tags = {
     Name = "${var.project} private subnet ${count.index + 1}"
