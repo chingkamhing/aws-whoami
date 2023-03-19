@@ -62,3 +62,13 @@ output "internet_gateway_arn" {
   description = "The ARN of the Internet Gateway"
   value       = try(module.vpc.internet_gateway_arn, "")
 }
+
+output "ec2_ami_id" {
+  description = "The AMI of the EC2"
+  value       = try(data.aws_ami.amzlinux.id, "")
+}
+
+output "ec2_ami_name" {
+  description = "The name of the EC2"
+  value       = try(data.aws_ami.amzlinux.name, "")
+}
