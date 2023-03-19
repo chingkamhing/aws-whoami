@@ -39,7 +39,7 @@ resource "aws_internet_gateway" "gateway" {
 }
 
 # on top of the default VPC route table, create second one
-resource "aws_route_table" "route_table2" {
+resource "aws_route_table" "main_route_table" {
   vpc_id = aws_vpc.main.id
 
   route {
@@ -55,5 +55,5 @@ resource "aws_route_table" "route_table2" {
 resource "aws_route_table_association" "public_subnet_association" {
   count          = length(var.public_subnets)
   subnet_id      = element(aws_subnet.public_subnets[*].id, count.index)
-  route_table_id = aws_route_table.route_table2.id
+  route_table_id = aws_route_table.main_route_table.id
 }
